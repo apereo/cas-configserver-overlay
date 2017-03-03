@@ -33,7 +33,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <warName>cas</warName>
+                    <warName>casconfigserver</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <recompressZippedFiles>false</recompressZippedFiles>
                     <archive>
@@ -44,18 +44,18 @@
                     <overlays>
                         <overlay>
                             <groupId>org.apereo.cas</groupId>
-                            <artifactId>cas-server-webapp</artifactId>
+                            <artifactId>cas-server-webapp-config-server</artifactId>
                         </overlay>
                     </overlays>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
             </plugin>
         </plugins>
-        <finalName>casconfigserver</finalName>
     </build>
 
     <dependencies>
