@@ -61,12 +61,3 @@ Run the configuration server web application as an executable WAR via Spring Boo
 ## External
 
 Deploy resultant `target/casconfigserver.war`  to a servlet container of choice.
-
-### Tomcat Context Fragments
-
-**EXPERIMENTAL**
-
-If your external container is Apache Tomcat, you may be able to use a context fragment
-to have Tomcat locate the CAS web application directly inside the `target` directory, which
-would relieve you from having to build/copy/deploy every time you make a change.
-
