@@ -1,0 +1,88 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url "https://repo.spring.io/milestone/" }
+        maven { url "https://repo.spring.io/libs-milestone" }
+        maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${project.springBootVersion}"
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url "https://oss.jfrog.org/artifactory/oss-snapshot-local" }
+    maven { url 'https://build.shibboleth.net/nexus/content/repositories/releases/' }
+    maven { url "https://repo.spring.io/libs-milestone" }
+}
+
+apply from: "https://dl.bintray.com/scalding/generic/waroverlay.gradle"
+
+apply plugin: "war"
+apply plugin: "org.springframework.boot"
+apply plugin: "eclipse"
+apply plugin: "idea"
+
+def currentBranch = "master"
+def currentVersion = "$System.env.casVersion"
+if (!currentVersion.contains("RC")) {
+    def matcher = currentVersion =~ /(\d+\.\d+\.).+/
+    if (matcher.find()) {
+        currentBranch = matcher.group(1) + "x"
+    }
+}
+logger.info "Using CAS branch [${currentBranch}] to handle overrides"
+apply from: "https://raw.githubusercontent.com/apereo/cas/${currentBranch}/gradle/overrides.gradle"
+
+eclipse {
+    classpath {
+       downloadSources = true
+       downloadJavadoc = true
+    }
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+war {
+    includeWarJars = true
+    entryCompression = ZipEntryCompression.STORED
+}
+
+springBoot {
+    mainClassName = "org.apereo.cas.CasConfigurationServerWebApplication"
+}
+
+bootWar {
+	if (project.hasProperty('executable')) {
+    	launchScript()
+	}
+
+	archiveName 'casconfigserver.war'
+    baseName 'casconfigserver'
+
+    excludeDevtools = false
+}
+
+bootRun {
+    sourceResources sourceSets.main
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+dependencies {
+    compile "org.apereo.cas:cas-server-webapp-config-server:${project.casVersion}"
+}
+
+
+task wrapper(type: Wrapper, description: "Update the Gradle wrapper") {
+    gradleVersion = "${project.gradleVersion}"
+}
