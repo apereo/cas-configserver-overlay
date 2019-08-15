@@ -83,6 +83,6 @@ dependencies {
 }
 
 
-task wrapper(type: Wrapper, description: "Update the Gradle wrapper") {
+wrapper {
     gradleVersion = "${project.gradleVersion}"
 }
