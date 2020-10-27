@@ -1,4 +1,4 @@
-CAS Spring Boot Admin Server Overlay Template
+CAS Spring Cloud Configuration Server Overlay Template
 ============================
 
 Generic CAS Spring Cloud Configuration Server WAR overlay.
