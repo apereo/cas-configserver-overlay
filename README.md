@@ -1,3 +1,4 @@
+# IMPORTANT NOTE<br/>******************************************************<br/>This repository is always automatically generated from the CAS Initializr. Do NOT submit pull requests here as the change-set will be overwritten on the next sync.To learn more, please visit the [CAS documentation](https://apereo.github.io/cas).<br/>******************************************************<br/>
 Apereo CAS WAR Overlay Template
 =====================================
 
@@ -136,5 +137,3 @@ The overlay embraces the [Jib Gradle Plugin](https://github.com/GoogleContainerT
 # Running this task requires that you have Docker installed and running.
 ./gradlew build jibDockerBuild
 ```
-
-
