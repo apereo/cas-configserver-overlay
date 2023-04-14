@@ -1,0 +1,38 @@
+name: Build
+
+env:
+  JAVA_OPTS: "-Xms512m -Xmx6048m -Xss128m -XX:ReservedCodeCacheSize=512m -server -XX:+UseG1GC"
+  GRADLE_OPTS: "-Xms512m -Xmx6048m -Xss128m -XX:ReservedCodeCacheSize=512m -server -XX:+UseG1GC"
+  TERM: xterm-256color
+  JDK_CURRENT: 17
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  cancel-previous-runs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    steps:
+      - uses: styfle/cancel-workflow-action
+        with:
+          access_token: ${{ github.token }}
+  build:
+    needs: cancel-previous-runs
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout
+      - name: Set up JDK
+        uses: actions/setup-java
+        with:
+          java-version: ${{ env.JDK_CURRENT }}
+      - name: Build
+        run: ./gradlew clean build
+
