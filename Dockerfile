@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="eclipse-temurin:17-jdk"
+ARG BASE_IMAGE="eclipse-temurin:17.0.8_7-jdk"
 ARG EXT_BUILD_COMMANDS=""
 ARG EXT_BUILD_OPTIONS=""
 
