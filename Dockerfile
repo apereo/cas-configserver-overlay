@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="azul/zulu-openjdk:21"
+ARG BASE_IMAGE="azul/zulu-openjdk:21.0.9"
 
 FROM $BASE_IMAGE AS overlay
 
