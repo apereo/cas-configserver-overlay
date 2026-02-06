@@ -1,0 +1,49 @@
+
+springBoot {
+    mainClass = "org.apereo.cas.CasConfigurationServerWebApplication"
+}
+
+
+bootWar {
+
+    archiveFileName = "casconfigserver.war"
+    archiveBaseName = "casconfigserver"
+
+    entryCompression = ZipEntryCompression.STORED
+
+    /*
+        attachClasses = true
+        classesClassifier = 'classes'
+        archiveClasses = true
+    */
+
+
+    overlays {
+        /*
+            https://docs.freefair.io/gradle-plugins/current/reference/#_io_freefair_war_overlay
+            Note: The "excludes" property is only for files in the war dependency.
+            If a jar is excluded from the war, it could be brought back into the final war as a dependency
+            of non-war dependencies. Those should be excluded via normal gradle dependency exclusions.
+        */
+        cas {
+
+            from "org.apereo.cas:cas-server-webapp-config-server:${project.'cas.version'}@war"
+
+            provided = false
+
+            def excludeArtifacts = ["WEB-INF/lib/servlet-api-2*.jar"]
+            if (project.hasProperty("tomcatVersion")) {
+                excludeArtifacts += "WEB-INF/lib/tomcat-*.jar"
+            }
+            excludes = excludeArtifacts
+
+            /*
+            excludes = ["WEB-INF/lib/somejar-1.0*"]
+            enableCompilation = true
+            includes = ["*.xyz"]
+            targetPath = "sub-path/bar"
+            skip = false
+            */
+        }
+    }
+}
